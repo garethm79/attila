@@ -1,0 +1,49 @@
+name: Build and Compress Attila
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Enables manual triggering of the workflow
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js (adjust Node.js version if needed)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Use the required Node.js version
+
+      # Install Grunt CLI globally
+      - name: Install Grunt CLI
+        run: npm install -g grunt-cli
+
+      # Install Grunt dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build the Grunt project
+      - name: Build project
+        run: grunt build
+
+      # Compress the Grunt project
+      - name: Compress project
+        run: grunt compress
+
+      # Optional: Archive the compressed output
+      - name: Upload compressed artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: attila-theme
+          path: dist/*.zip
