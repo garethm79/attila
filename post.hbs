@@ -97,11 +97,6 @@
 			</section>
 			{{/if}}
 
-			{{#if comments}}
-			<section class="post-comments">
-				{{comments}}
-			</section>
-			{{/if}}
 
       {{#if @labs.subscribers}}
       <section class="post-subscribe">
@@ -211,20 +206,6 @@
 			launchDisqus();
 		{{/if}}
 
-		{{#match @custom.post_share "Native"}}
-		document.getElementById('share-button').addEventListener('click', async () => {
-			try {
-				await navigator.share({
-					//title: 'Title',
-					//text: 'Text',
-					url: '{{url absolute="true"}}',
-				});
-				console.log('Data was shared successfully');
-			} catch (err) {
-				console.error('error:', err.message);
-			}
-		});
-		{{/match}}
   });
 </script>
 {{/contentFor}}
